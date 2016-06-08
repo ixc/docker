@@ -1,26 +1,30 @@
 #!/bin/bash
 
-# Setup environment for Django project and execute command.
+cat <<'EOF'
+
+# setup-django-env.sh
 #
-# Set default `PG*` values, use a random Python hash seed, and wait for
+# Setup environment for Django project.
+#
+# Set default `PG*` variables, use a random Python hash seed, and wait for
 # PostgreSQL to become available.
 
-echo "# ${0}"
+EOF
 
 set -e
 
-# Derive `PGDATABASE` from `PROJECT_NAME` and git branch or `BASE_SETTINGS_MODULE`
-# if not already defined.
+# Derive `PGDATABASE` from `PROJECT_NAME` and git branch or
+# `BASE_SETTINGS_MODULE` if not already defined.
 if [[ -z "${PGDATABASE}" ]]; then
     if [[ -d .git ]]; then
         export PGDATABASE="${PROJECT_NAME}_$(git rev-parse --abbrev-ref HEAD | sed 's/[^0-9A-Za-z]/_/g')"
-        echo "Derive database name '${PGDATABASE}' from 'PROJECT_NAME' environment variable and git branch."
+        echo "# Derive database name '${PGDATABASE}' from \`PROJECT_NAME\` environment variable and git branch."
     elif [[ -n "${BASE_SETTINGS_MODULE}" ]]; then
         export PGDATABASE="${PROJECT_NAME}_${BASE_SETTINGS_MODULE}"
-        echo "Derive database name '${PGDATABASE}' from 'PROJECT_NAME' and 'BASE_SETTINGS_MODULE' environment variables."
+        echo "# Derive database name '${PGDATABASE}' from \`PROJECT_NAME\` and \`BASE_SETTINGS_MODULE\` environment variables."
     else
         export PGDATABASE="${PROJECT_NAME}"
-        echo "Derive database name '${PGDATABASE}' from 'PROJECT_NAME' environment variable."
+        echo "# Derive database name '${PGDATABASE}' from \`PROJECT_NAME\` environment variable."
     fi
 fi
 
@@ -35,11 +39,9 @@ export PYTHONHASHSEED=random
 # Wait for PostgreSQL to become available.
 while ! psql -l > /dev/null 2>&1; do
     if [[ $((${COUNT:-0}+1)) -gt 10 ]]; then
-        echo 'PostgreSQL still not available. Giving up.'
+        echo '# PostgreSQL still not available. Giving up.'
         exit 1
     fi
-    echo 'Waiting for PostgreSQL...'
+    echo '# Waiting for PostgreSQL...'
     sleep 1
 done
-
-exec "$@"
