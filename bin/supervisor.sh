@@ -1,11 +1,17 @@
 #!/bin/bash
 
-# Run a `django-supervisor` command.
+cat <<EOF
 
-echo "# ${0}"
+#
+# `whoami`@`hostname`:$PWD$ supervisor.sh $@
+#
+# Execute the 'supervisor' management command with the given arguments.
+#
+
+EOF
 
 set -e
 
-cd "${PROJECT_DIR}"
+cd "$PROJECT_DIR"
 
 exec python manage.py supervisor "$@"
