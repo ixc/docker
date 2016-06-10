@@ -74,6 +74,16 @@ else
 	echo '# Bower components are already up to date. Skip.'
 fi
 
+# Make `--user` the default for `pip install` command.
+pip() {
+  if [[ "$1" = 'install' ]]; then
+    shift
+    set -- install --user "$@"
+  fi
+  command pip "$@"
+}
+export -f pip
+
 # Python packages.
 export PATH="$PWD/venv/bin:$PATH"
 export PIP_SRC="$PWD/venv/src"
@@ -87,9 +97,9 @@ if [[ ! -d venv ]] || [[ $(md5sum ../requirements*.txt ../setup.py) != $(cat ven
 	mkdir -p "$PYTHONUSERBASE/lib/python2.7/site-packages"
 
     # Use pip, because pip-accel wants to build an sdist package to cache.
-	pip install -r requirements.txt -e . --user
+	pip install -r requirements.txt -e .
 	if [[ -f requirements-local.txt ]]; then
-		pip install -r requirements-local.txt --user
+		pip install -r requirements-local.txt
 	fi
 
 	cd -  # Change back to var directory
