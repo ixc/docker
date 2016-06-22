@@ -16,10 +16,10 @@ EOF
 
 set -e
 
-# There is no need to setup the local env when the project directory owned by
-# 'root', which means it is not bind mounted from the host.
-if [[ $(stat -c '%U' "$PROJECT_DIR") = 'root' ]]; then
-	echo "# Directory '$PROJECT_DIR' is not bind mounted from the host. Skip."
+# Skip local env setup when the var directory is owned by the project user,
+# which we assume means it is not bind mounted from the host.
+if [[ $(stat -c '%U' "$PROJECT_DIR/var") == "$PROJECT_NAME" ]]; then
+	echo "# Directory '$PROJECT_DIR/var' is not bind mounted from the host. Skip."
 	exec "$@"
 fi
 
