@@ -26,10 +26,10 @@ fi
 cd "$PROJECT_DIR/var"
 
 # Disable SSH strict host checking.
-if [[ -f /etc/ssh/id_dsa ]]; then
+if [[ -f /etc/ssh/id_rsa ]]; then
 	cat <<-EOF > "$HOME/.ssh/config"
 	Host *
-		IdentityFile /etc/ssh/id_dsa
+		IdentityFile /etc/ssh/id_rsa
 		StrictHostKeyChecking no
 	EOF
 fi
