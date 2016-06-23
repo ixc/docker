@@ -27,6 +27,7 @@ cd "$PROJECT_DIR/var"
 
 # Disable SSH strict host checking.
 if [[ -f /etc/ssh/id_rsa ]]; then
+	mkdir -p "$HOME/.ssh"
 	cat <<-EOF > "$HOME/.ssh/config"
 	Host *
 		IdentityFile /etc/ssh/id_rsa
