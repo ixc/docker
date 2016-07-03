@@ -12,7 +12,9 @@ EOF
 
 set -e
 
-touch package.json.md5
+if [[ ! -f package.json.md5 ]]; then
+	touch package.json.md5
+fi
 
 if [[ ! -d node_modules ]] || ! md5sum -c --status package.json.md5; then
 	echo '# Node modules are out of date. Install.'

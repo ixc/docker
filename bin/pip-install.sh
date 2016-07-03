@@ -22,7 +22,9 @@ pip() {
 }
 export -f pip
 
-touch venv.md5
+if [[ ! -f venv.md5 ]]; then
+	touch venv.md5
+fi
 
 export PATH="$PWD/venv/bin:$PATH"
 export PIP_SRC="$PWD/venv/src"

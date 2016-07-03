@@ -12,7 +12,9 @@ EOF
 
 set -e
 
-touch bower.json.md5
+if [[ ! -f bower.json.md5 ]]; then
+	touch bower.json.md5
+fi
 
 if [[ -f .bowerrc ]]; then
 	BOWER_DIR=$(jq -r '.directory' .bowerrc)
