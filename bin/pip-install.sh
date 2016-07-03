@@ -29,7 +29,7 @@ fi
 export PATH="$PWD/venv/bin:$PATH"
 export PIP_SRC="$PWD/venv/src"
 export PYTHONUSERBASE="$PWD/venv"
-if [[ ! -d venv ]] || ! md5sum -c --status venv.md5; then
+if ! md5sum -c --status venv.md5; then
 	echo '# Python packages are out of date. Install.'
 
 	# For some reason pip allows us to install sdist packages, but not editable

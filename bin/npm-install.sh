@@ -16,7 +16,7 @@ if [[ ! -f package.json.md5 ]]; then
 	touch package.json.md5
 fi
 
-if [[ ! -d node_modules ]] || ! md5sum -c --status package.json.md5; then
+if ! md5sum -c --status package.json.md5; then
 	echo '# Node modules are out of date. Install.'
 	npm install
 	md5sum package.json > package.json.md5

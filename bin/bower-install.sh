@@ -22,7 +22,7 @@ else
 	BOWER_DIR="bower_components"
 fi
 
-if [[ ! -d "$BOWER_DIR" ]] || ! md5sum -c --status bower.json.md5; then
+if ! md5sum -c --status bower.json.md5; then
 	echo '# Bower components are out of date. Install.'
 	bower install --allow-root
 	md5sum bower.json > bower.json.md5
